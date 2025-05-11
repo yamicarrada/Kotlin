@@ -1,103 +1,60 @@
 package com.example.kotlinmodulo1
 
-//Funciones Basicas
-//Escribí una función que reciba dos números y retorne su suma.
-fun suma(a: Int, b: Int): Int {
-    return a + b
-}
+import com.example.kotlinmodulo1.Kotlin2.Car
+import com.example.kotlinmodulo1.Kotlin2.Person
 
-//Creá una función que tenga parámetros opcionales.
-fun saludar(nombre: String = "Juan", edad: Int? = null) {
-    if (edad != null) {
-        println("Hola, me llamo $nombre y tengo $edad años.")
-    } else {
-        println("Hola, me llamo $nombre.")
-    }
-}
-
-//función inline
-inline fun saludarInLine(nombre: String = "Juan") {
-    println("Hola, $nombre")
-}
-
-//función de una sola expresion
-fun resta(a: Int, b: Int) = a - b
-
-
-//Lambdas y funciones de orden superior
-//Definí una función lambda que reciba un número y retorne su cuadrado.
-val cuadrado: (Int) -> Int = { num -> num * num }
-
-//Usá map y filter para transformar una lista de números.
-val numeros = listOf(1,2,3,4)
-val numerosImpares = numeros.filter { it % 2 != 0 }
-val numerosCuadrados = numeros.map { it * it }
-
-//Creá una función de orden superior que reciba otra función como parámetro.
-fun operar(a: Int, b: Int, operacion: (Int, Int) -> Int): Int {
-    return operacion(a, b)
-}
-
-//Clases y objetos
-//Declarar una clase Persona con propiedades nombre y edad.
-//Agregale un metodo que imprima esa información.
-internal class Persona(
-    //constructor primario
-    val nombre: String,
-    var edad: Int,
-){
-    private var numTelefono: Long = 0
-
-    //constructor secundario
-    constructor(nombre: String, edad: Int, numTelPersona: Long) : this(nombre, edad){
-        numTelefono = numTelPersona
-    }
-    //Usá un bloque init para inicializar valores.
-    init {
-        numTelefono = 2651798754
+class Kotlin2 {
+    // 1. Declaración y uso de funciones básicas
+    fun greet(name: String) {
+        println("Hola, $name")
     }
 
-    fun imprimirInfo(nombre: String, edad: Int){
-        println("Nombre: $nombre, Edad: $edad")
+    fun add(a: Int, b: Int): Int {
+        val sum = a + b
+        return sum
     }
 
-    protected fun obtenerTelefonoComoString(): String {
-        return numTelefono.toString()
+    // 2. Funciones inline y de una sola expresión
+    inline fun multiply(a: Int, b: Int) = a * b
+
+    fun square(n: Int) = n * n
+
+    // 3. Introducción a lambdas y funciones de orden superior
+    fun lambdaExample() {
+        val numbers = listOf(1, 2, 3, 4, 5)
+        val doubledNumbers = numbers.map { it * 2 }
+        println("Numeros duplicados: $doubledNumbers")
+        val evenNumbers = numbers.filter { it % 2 == 0 }
+        println("Numeros pares: $doubledNumbers")
     }
-    fun obtenerTelefono(nombre: String){
-        println("Numero de telefono de $nombre: ${obtenerTelefonoComoString()}")
+
+    // 4. Clases y objetos
+    class Person(private val name: String, private var age: Int) {
+
+        fun presentation(name: String, age: Int){
+            println("Soy $name y tengo $age años")
+        }
+    }
+
+    // 5. Constructores y datos encapsulados
+    class Car(val brand: String, val model: String, val year: Int) {
+        init {
+            println("Auto creado: $brand $model del año $year")
+        }
     }
 
 }
-
 fun main() {
-    val resultado = suma(5, 3)
-    println("Resultado de la suma: $resultado")
+    // Llamar a las funciones de prueba
+    Kotlin2().greet("Gaston")
+    println("Suma: ${Kotlin2().add(3, 5)}")
+    println("Multiplicación: ${Kotlin2().multiply(4, 2)}")
+    println("Cuadrado: ${Kotlin2().square(6)}")
+    Kotlin2().lambdaExample()
 
-    saludar("Martin", 30)
+    // Creación de objetos y uso de clases
+    val person = Person("Juan", 30)
+    person.presentation("Juan", 30)
 
-    saludarInLine("Mariana")
-
-    val resultadoResta = resta(10, 7)
-    println("Resultado de la resta: $resultadoResta")
-
-    println("Cuadrado de un numero: " + cuadrado(3))
-
-    println("Numeros impares: $numerosImpares")
-    println("Numeros al cuadrado: $numerosCuadrados")
-
-    val multiplicar = operar(5, 3) { a, b -> a * b }
-    println("Funcion orden superior, multiplicar: $multiplicar")
-
-    //Instanciá objetos de esa clase y mostralos.
-    val persona1 = Persona("Mariana", 26)
-    persona1.imprimirInfo(persona1.nombre, persona1.edad)
-
-    val persona2 = Persona("Martin", 30)
-    persona2.imprimirInfo(persona2.nombre, persona2.edad)
-
-    val persona3 = Persona("Martin", 30, 2651798754)
-    persona3.imprimirInfo(persona3.nombre, persona3.edad)
-
-    persona3.obtenerTelefono(persona3.nombre)
+    val car = Car("Toyota", "Corolla", 2022)
 }
